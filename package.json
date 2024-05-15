@@ -26,6 +26,7 @@
     "prepublishOnly": "npm run build",
     "test": "npm run lint && vitest run",
     "test:run": "vitest run --reporter=basic --disable-console-intercept",
+    "ci": "npm run lint && npm run cov",
     "cov": "vitest run --coverage"
   },
   "devDependencies": {
