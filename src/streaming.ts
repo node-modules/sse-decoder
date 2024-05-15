@@ -13,7 +13,7 @@ function partition(str: string, delimiter: string): [string, string, string] {
     ];
   }
 
-  return [str, '', ''];
+  return [ str, '', '' ];
 }
 
 export class SSEDecoder {
@@ -57,7 +57,7 @@ export class SSEDecoder {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let [fieldname, _, value] = partition(newLine, ':');
+    let [ fieldname, _, value ] = partition(newLine, ':');
 
     if (value.startsWith(' ')) {
       value = value.substring(1);
@@ -80,8 +80,7 @@ export class SSEDecoder {
  * https://github.com/encode/httpx/blob/920333ea98118e9cf617f246905d7b202510941c/httpx/_decoders.py#L258
  */
 export class LineDecoder {
-  // prettier-ignore
-  static NEWLINE_CHARS = new Set(['\n', '\r', '\x0b', '\x0c', '\x1c', '\x1d', '\x1e', '\x85', '\u2028', '\u2029']);
+  static NEWLINE_CHARS = new Set([ '\n', '\r', '\x0b', '\x0c', '\x1c', '\x1d', '\x1e', '\x85', '\u2028', '\u2029' ]);
   static NEWLINE_REGEXP = /\r\n|[\n\r\x0b\x0c\x1c\x1d\x1e\x85\u2028\u2029]/g;
 
   buffer: string[];
@@ -126,12 +125,12 @@ export class LineDecoder {
     }
 
     if (this.buffer.length > 0) {
-      lines = [this.buffer.join('') + lines[0], ...lines.slice(1)];
+      lines = [ this.buffer.join('') + lines[0], ...lines.slice(1) ];
       this.buffer = [];
     }
 
     if (!trailingNewline) {
-      this.buffer = [lines.pop() || ''];
+      this.buffer = [ lines.pop() || '' ];
     }
 
     return lines;
@@ -170,7 +169,7 @@ export class LineDecoder {
     }
 
     throw new Error(
-      `Unexpected: neither Buffer nor TextDecoder are available as globals. Please report this error.`,
+      'Unexpected: neither Buffer nor TextDecoder are available as globals. Please report this error.',
     );
   }
 
@@ -179,7 +178,7 @@ export class LineDecoder {
       return [];
     }
 
-    const lines = [this.buffer.join('')];
+    const lines = [ this.buffer.join('') ];
     this.buffer = [];
     this.trailingCR = false;
     return lines;
@@ -255,13 +254,13 @@ export class Stream<Item> implements AsyncIterable<Item> {
     const decoder = new SSEDecoder();
 
     async function* iterMessages(): AsyncGenerator<
-      ServerSentEvent,
-      void,
-      unknown
+    ServerSentEvent,
+    void,
+    unknown
     > {
       if (!response.body) {
         controller.abort();
-        throw new Error(`Attempted to iterate over a response with no body`);
+        throw new Error('Attempted to iterate over a response with no body');
       }
 
       const lineDecoder = new LineDecoder();
@@ -303,8 +302,8 @@ export class Stream<Item> implements AsyncIterable<Item> {
             try {
               data = JSON.parse(sse.data);
             } catch (e) {
-              console.error(`Could not parse message into JSON:`, sse.data);
-              console.error(`From chunk:`, sse.raw);
+              console.error('Could not parse message into JSON:', sse.data);
+              console.error('From chunk:', sse.raw);
               throw e;
             }
 
@@ -318,8 +317,8 @@ export class Stream<Item> implements AsyncIterable<Item> {
             try {
               data = JSON.parse(sse.data);
             } catch (e) {
-              console.error(`Could not parse message into JSON:`, sse.data);
-              console.error(`From chunk:`, sse.raw);
+              console.error('Could not parse message into JSON:', sse.data);
+              console.error('From chunk:', sse.raw);
               throw e;
             }
             // TODO: Is this where the error should be thrown?
@@ -331,7 +330,7 @@ export class Stream<Item> implements AsyncIterable<Item> {
                 undefined,
               );
             }
-            yield { event: sse.event, data: data } as any;
+            yield { event: sse.event, data } as any;
           }
         }
         done = true;

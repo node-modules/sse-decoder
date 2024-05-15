@@ -18,9 +18,9 @@ export class APIError extends Error {
 
     const data = error as Record<string, any>;
     this.error = data;
-    this.code = data?.['code'];
-    this.param = data?.['param'];
-    this.type = data?.['type'];
+    this.code = data?.code;
+    this.param = data?.param;
+    this.type = data?.type;
   }
 
   private static makeMessage(
@@ -33,8 +33,8 @@ export class APIError extends Error {
         ? error.message
         : JSON.stringify(error.message)
       : error
-      ? JSON.stringify(error)
-      : message;
+        ? JSON.stringify(error)
+        : message;
 
     if (status && msg) {
       return `${status} ${msg}`;
