@@ -237,11 +237,11 @@ export function readableStreamAsyncIterable<T>(
 }
 
 export class Stream<Item> implements AsyncIterable<Item> {
-  controller: AbortController;
+  controller?: AbortController;
 
   constructor(
     private iterator: () => AsyncIterator<Item>,
-    controller: AbortController,
+    controller?: AbortController,
   ) {
     this.controller = controller;
   }
@@ -353,7 +353,10 @@ export class Stream<Item> implements AsyncIterable<Item> {
    */
   static fromReadableStream<Item>(
     readableStream: ReadableStream,
-    controller: AbortController,
+    controller?: AbortController,
+    options?: {
+      disableJSONParse?: boolean;
+    },
   ) {
     let consumed = false;
 
@@ -383,7 +386,13 @@ export class Stream<Item> implements AsyncIterable<Item> {
       try {
         for await (const line of iterLines()) {
           if (done) continue;
-          if (line) yield JSON.parse(line);
+          if (line) {
+            if (options?.disableJSONParse) {
+              yield line as Item;
+            } else {
+              yield JSON.parse(line);
+            }
+          }
         }
         done = true;
       } catch (e) {
@@ -392,7 +401,7 @@ export class Stream<Item> implements AsyncIterable<Item> {
         throw e;
       } finally {
         // If the user `break`s, abort the ongoing request.
-        if (!done) controller.abort();
+        if (!done) controller?.abort();
       }
     }
 
