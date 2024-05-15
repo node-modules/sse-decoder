@@ -4,7 +4,7 @@
   "publishConfig": {
     "tag": "latest"
   },
-  "description": "Server-Sent Events implementation in Typescript. Used by the Gin Framework. ",
+  "description": "Server-Sent Events Decoder",
   "keywords": [
     "ai",
     "streaming",
@@ -16,7 +16,7 @@
     "url": "https://github.com/node-modules/sse-decoder.git"
   },
   "engines": {
-    "node": ">= 14.19.3"
+    "node": ">= 18.0.0"
   },
   "license": "MIT",
   "scripts": {
@@ -27,19 +27,21 @@
     "test": "npm run lint && vitest run",
     "test:run": "vitest run --reporter=basic --disable-console-intercept",
     "ci": "npm run lint && npm run cov",
-    "cov": "vitest run --coverage"
+    "cov": "vitest run --coverage",
+    "contributor": "git-contributor"
   },
   "devDependencies": {
-    "@types/node": "^20.2.1",
     "@tsconfig/node18": "^18.2.1",
     "@tsconfig/strictest": "^2.0.2",
+    "@types/node": "^20.2.1",
     "@vitest/coverage-v8": "^1.3.1",
     "eslint": "^8.25.0",
-    "eslint-config-egg": "^12.1.0",
+    "eslint-config-egg": "13",
+    "git-contributor": "^2.1.5",
     "msw": "^2.2.14",
-    "typescript": "^5.0.4",
     "tshy": "^1.0.0",
     "tshy-after": "^1.0.0",
+    "typescript": "^5.0.4",
     "undici": "^6.14.1",
     "vitest": "^1.3.1"
   },
